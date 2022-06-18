@@ -13,7 +13,7 @@
         <section class="form signup">
             <header>Reatime Chat App</header>
             <form action="#" method="POST" enctype="multipart/form-data">
-                <div class="error-txt">This is an error messages!</div>
+                <div class="error-txt"></div>
                 <div class="name-details"></div>
                     <div class="field input">
                         <label>First Name</label>
