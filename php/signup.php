@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once "config.php" ;
 $fname = mysqli_real_escape_string($conn, $_POST['fname']);
 $lname = mysqli_real_escape_string($conn, $_POST['lname']);
@@ -19,6 +20,33 @@ if(!empty($fname) && !empty($lname) && !empty($email) && !empty($password) ){
 
                 $img_explode = explode('.', $img_name);
                 $img_ext = end($img_explode);
+
+                $extension = ['png' , 'jpeg' , 'jpg'];
+                if(in_array($img_ext, $extension) === true){
+                    $time = time();
+                    $new_img_name = $time.$img_name;
+
+                    if(move_uploaded_file($tmp_name, "images/".$new_img_name)){
+                        $status = "Active now";
+                        $radom_id = rand(time(), 10000000);
+
+                        $sql2 = mysqli_query($conn, "INSERT INTO users ( unique_id, fname, lname, email, password, img, status)
+                        VALUES ({$radom_id}, '{$fname}', '{$lname}', '{$email}', '{$password}', '{$new_img_name}', '{$status}'  )");
+
+                        if($sql2){
+                            $sql3 = mysqli_query($conn, "SELECT * FROM  users WHERE email = '{$email}'");
+                            if(mysqli_num_rows($sql3)){
+                                $row = mysqli_fetch_assoc($sql3);
+                                $_SESSION['unique_id'] = $row['unique_id'];
+                                echo "Success";
+                            }
+                        }else{
+                            echo "Something went wrong!";
+                        }
+                    }
+                }else{
+                    echo "Please select an Image file - jpeg,png,jpg";
+                }
             }else{
                 echo "Plese select an Image file";
             }
