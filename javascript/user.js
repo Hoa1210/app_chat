@@ -11,7 +11,6 @@ searchBtn.onclick = ()=>{
 searchBar.onkeyup = ()=>{
 
     let searchTerm = searchBar.value;
-    
     let xhr = new XMLHttpRequest(); // Tao doi tuong XML 
 
     xhr.open("POST", "php/search.php", true);
